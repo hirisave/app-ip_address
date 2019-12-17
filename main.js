@@ -22,16 +22,6 @@ const path = require('path');
  */
 const { getIpv4MappedIpv6Address }  = require(path.join(__dirname, 'ipv6.js'));
 
-/**
- * Calculate and return the first host IP address from a CIDR subnet.
- * @param {string} cidrStr - The IPv4 subnet expressed
- *                 in CIDR format.
- * @param {callback} callback - A callback function.
- * @param {sampleIpv4s} sampleIpv4s - A callback function.
- * @return {string} (firstIpAddress) - An IPv4 address.
-
-
-
 
 
 /*
@@ -49,8 +39,9 @@ class IpAddress {
     // For more information, consult the Log Class guide on the Itential
     // Developer Hub https://developer.itential.io/ located
     // under Documentation -> Developer Guides -> Log Class Guide
-     */
- getFirstIpAddress(cidrStr,sampleIpv4s, callback ) {
+    log.info('Starting the IpAddress product.');
+  }
+  getFirstIpAddress(cidrStr, callback ) {
   
 
   // Initialize return arguments for callback
@@ -58,8 +49,8 @@ class IpAddress {
   let callbackError = null;
   let mappedAddress = null;
   const obj ={
-      ipv4:firstIpAddress,
-      ipv6:mappedAddress
+      ipv4:null,
+      ipv6:null
   }
 
   // Instantiate an object from the imported class and assign the instance to variable cidr.
@@ -80,10 +71,9 @@ class IpAddress {
   } else {
     // If the passed CIDR is valid, call the object's toArray() method.
     // Notice the destructering assignment syntax to get the value of the first array's element.
-    [firstIpAddress] = cidr.toArray(options);
-    let mappedAddress = getIpv4MappedIpv6Address(firstIpAddress);
-    obj.ipv4 =firstIpAddress;
-    obj.ipv6 =mappedAddress;
+    [obj.ipv4] = cidr.toArray(options);
+    obj.ipv6 = getIpv4MappedIpv6Address(obj.ipv4);
+    
   }
   
 
@@ -97,7 +87,5 @@ class IpAddress {
   
  
 }
-    log.info('Starting the IpAddress product.');
-  }
 }
 module.exports = new IpAddress;
